@@ -42,6 +42,8 @@ export default function App() {
                             />
                         </View>
                     )}
+                    refreshing={loading}
+                    onRefresh={fetchData}
                 />
             )}
         </View>
