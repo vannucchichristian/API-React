@@ -51,7 +51,7 @@ export default function App() {
         }
         if (!newProductImage.trim()) newErrors.image = "L'URL dell'immagine è obbligatorio";
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;  //Conta il numero di chiavi dell'oggetto newErrors e controlla se sono 0 (form accettato) o no
+        return Object.keys(newErrors).length === 0;  // Conta il numero di chiavi dell'oggetto newErrors e controlla se sono 0 (form accettato) o no
     };
 
     const addItem = async () => {
@@ -92,12 +92,14 @@ export default function App() {
                         <View style={styles.cella}>
                             <View style={styles.info}>
                                 <Image
-                                    source={{ uri: item.image }}
-                                    style={styles.image}
+                                    source={{ uri: item.image || 'https://via.placeholder.com/50' }}  // Usa immagine segnaposto se mancante
+                                    style={styles.immagine}
                                 />
-                                <View style={styles.testi}>
-                                    <Text>{item.name}</Text>
-                                    <Text>€ {parseFloat(item.price).toFixed(2)}</Text>
+                                <View>
+                                    <Text style={styles.titolo}>{item.name}</Text>
+                                    <Text style={styles.prezzo}>€ {parseFloat(item.price).toFixed(2)}</Text>
+                                    {/* Scrive la data di creazione del prodotto in formato leggibile */}
+                                    <Text style={styles.data}>{new Date(item.createdAt).toLocaleString()}</Text>
                                 </View>
                             </View>
                             {/* Ogni prodotto ha un id, usato dal pulsante del cestino per cancellare quello giusto */}
@@ -157,61 +159,74 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingTop: 50,
+        paddingTop: 40,
     },
     cella: {
         flexDirection: 'row',
         alignItems: 'center',
+        backgroundColor: '#f9f9f9',
+        padding: 10,
+        marginHorizontal: 10,
+        marginVertical: 5,
+        borderRadius: 10,
+        elevation: 2,
         justifyContent: 'space-between',
-        paddingHorizontal: 10,
-        height: 100,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-        backgroundColor: '#fff',
     },
     info: {
         flexDirection: 'row',
         alignItems: 'center',
     },
-    testi: {
-        marginLeft: 10,
+    immagine: {
+        width: 60,
+        height: 60,
+        marginRight: 10,
+        borderRadius: 8,
+    },
+    titolo: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    prezzo: {
+        color: '#1b76b8',
+        marginTop: 4,
+    },
+    data: {
+        fontSize: 12,
+        color: '#666',
     },
     cestino: {
         fontSize: 24,
+        marginLeft: 10,
         color: 'red',
-    },
-    image: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
     },
     bottoneAggiungi: {
         position: 'absolute',
         right: 20,
-        bottom: 20,
+        bottom: 30,
+        backgroundColor: '#1b76b8',
         width: 60,
         height: 60,
         borderRadius: 30,
-        backgroundColor: '#1b76b8',
-        alignItems: 'center',
         justifyContent: 'center',
+        alignItems: 'center',
         elevation: 5,
     },
     testoBottone: {
         fontSize: 30,
-        color: '#fff',
+        color: 'white',
+        fontWeight: 'bold',
     },
     modalContainer: {
         flex: 1,
-        justifyContent: 'center',
         padding: 20,
+        justifyContent: 'center',
     },
     input: {
         borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
+        borderColor: '#999',
         padding: 10,
-        marginBottom: 10,
+        marginBottom: 5,
+        borderRadius: 5,
     },
     errorText: {
         color: 'red',
